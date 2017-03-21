@@ -1,0 +1,21 @@
+{
+    "name": "rwypior/nemocourier",
+    "description": "Nemo courier client",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Robert Wypiór",
+            "email": "robwypior@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0",
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "RWypior\\NemoCourier\\": "src"
+        }
+    }
+}
