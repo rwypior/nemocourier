@@ -6,6 +6,7 @@ class Status
 {
     const STATUS_DELIVERED = 'Comanda livrata la client';
     const STATUS_REFUSED = 'Comanda refuzata de client';
+    const STATUS_NOT_PICKED_UP = 'Manifestat. Nepreluat';
 
     private $awb;
     private $statusDescription;
@@ -43,5 +44,20 @@ class Status
     public function getDate(): \DateTime
     {
         return $this->date;
+    }
+
+    public function isDelivered(): bool
+    {
+        return $this->statusDescription == self::STATUS_DELIVERED;
+    }
+
+    public function isRefused(): bool
+    {
+        return $this->statusDescription == self::STATUS_REFUSED;
+    }
+
+    public function isInTransit(): bool
+    {
+        return !$this->isDelivered() && !$this->isRefused();
     }
 }

@@ -32,7 +32,7 @@ class CheckStatusRequest implements RequestInterface
     public function getPost() : array
     {
         $request = [
-            'awb' => implode(',', $this->codes)
+            ['awb' => implode(',', $this->codes)]
         ];
 
         return [

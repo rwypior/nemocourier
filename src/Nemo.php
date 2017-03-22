@@ -62,7 +62,7 @@ class Nemo
         {
             throw new CourierException('Could not add send Nemo request', CourierException::EXCCODE_UNKNOWN_ERROR, $ex);
         }
-                
+
         $expectedResponseClass = $request->getExpectedResponse();
         return $expectedResponseClass::createResponse($res->getBody()->getContents());
     }

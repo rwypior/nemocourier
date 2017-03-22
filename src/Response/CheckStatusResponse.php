@@ -35,7 +35,8 @@ class CheckStatusResponse implements ResponseInterface
         }
 
         $statuses = array_map(function($e) {
-            return new Status($e->awb, $e->status, new \DateTime($e->date));
+            $code = isset($e->awb) ? $e->awb : $e->barcode;
+            return new Status($code, $e->status, new \DateTime($e->date));
         }, $json->data);
 
         return new CheckStatusResponse($statuses);
@@ -47,7 +48,7 @@ class CheckStatusResponse implements ResponseInterface
      */
     public function getStatuses() : array
     {
-        return array_values($this->statuses);
+        return $this->statuses;
     }
 
     /**
@@ -60,41 +61,27 @@ class CheckStatusResponse implements ResponseInterface
         return isset($this->statuses[$awb]) ? $this->statuses[$awb] : NULL;
     }
 
-    public function isDelivered() : bool
+    public function isDelivered(string $awb) : bool
     {
-        $lastStatus = $this->getLastStatus();
-
-        if ($lastStatus)
-            return $lastStatus->getStatusDescription() == Status::STATUS_DELIVERED;
+        if ($status = $this->getStatusForAwb($awb))
+            return $status->isDelivered();
 
         return false;
     }
 
-    public function isRefused() : bool
+    public function isRefused(string $awb) : bool
     {
-        $lastStatus = $this->getLastStatus();
-
-        if ($lastStatus)
-            return $lastStatus->getStatusDescription() == Status::STATUS_REFUSED;
+        if ($status = $this->getStatusForAwb($awb))
+            return $status->isRefused();
 
         return false;
     }
 
-    public function isInTransit() : bool
+    public function isInTransit(string $awb) : bool
     {
-        return !$this->isDelivered() && !$this->isRefused();
-    }
+        if ($status = $this->getStatusForAwb($awb))
+            return $status->isInTransit();
 
-    public function hasAnyStatus() : bool
-    {
-        return (bool)count($this->statuses);
-    }
-
-    /**
-     * @return Status|null
-     */
-    public function getLastStatus()
-    {
-        return $this->hasAnyStatus() ? $this->statuses[count($this->statuses) - 1] : NULL;
+        return false;
     }
 }
