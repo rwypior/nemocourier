@@ -2,6 +2,7 @@
 
 namespace RWypior\NemoCourier\Request;
 
+use Behat\Transliterator\Transliterator;
 use RWypior\NemoCourier\Model\Shipment;
 use RWypior\NemoCourier\RequestInterface;
 use RWypior\NemoCourier\Response\AddShipmentResponse;
@@ -62,12 +63,26 @@ class AddShipmentRequest implements RequestInterface
             $shipmentObj['extra_1'] = $shipment->getExtra1();
             $shipmentObj['extra_2'] = $shipment->getExtra2();
 
+            $this->convertEntries($shipmentObj);
+
             $shipments[] = $shipmentObj;
         }
         
         return [
             'data' => json_encode($shipments)
         ];
+    }
+
+    /**
+     * Transliterate all diacritic characters
+     * Required by Nemo
+     * @param array $arr
+     */
+    private function convertEntries(array &$arr)
+    {
+        array_walk($arr, function(&$e) {
+            $e = \Behat\Transliterator\Transliterator::utf8ToAscii($e);
+        });
     }
 
     /**

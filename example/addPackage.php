@@ -8,10 +8,10 @@ $nemo = new \RWypior\NemoCourier\Nemo($apikey);
 
 $shipment = new RWypior\NemoCourier\Model\Shipment();
 $shipment
-    ->setRecipient('TEST PERSON')
+    ->setRecipient('TEST PERSON Łąść')
     ->setContactPerson('TEST PERSON')
     ->setPostalCode('77165')
-    ->setAddress('TEST ADDRESS')
+    ->setAddress('Băncilă TEST ADDRESS')
     ->setPhone('0123456789')
     ->setEmail('test@email.ro')
     ->setServiceType(\RWypior\NemoCourier\Model\Shipment::SERVICE_TYPE_NEXTDAY)
