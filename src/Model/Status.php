@@ -4,9 +4,19 @@ namespace RWypior\NemoCourier\Model;
 
 class Status
 {
-    const STATUS_DELIVERED = 'Comanda livrata la client';
-    const STATUS_REFUSED = 'Comanda refuzata de client';
-    const STATUS_NOT_PICKED_UP = 'Manifestat. Nepreluat';
+    const STATUS_LIST_DELIVERED = [
+        'Livrat la destinatar',
+        'Comanda livrata la client'
+    ];
+
+    const STATUS_LIST_REFUSED = [
+        'Comanda refuzata de client',
+        'Refuzata de client',
+        'Returnat'
+    ];
+
+    const STATUS_LIST_INPROGRESS = [
+    ];
 
     private $awb;
     private $statusDescription;
@@ -48,12 +58,12 @@ class Status
 
     public function isDelivered(): bool
     {
-        return $this->statusDescription == self::STATUS_DELIVERED;
+        return isset(array_flip(self::STATUS_LIST_DELIVERED)[$this->statusDescription]);
     }
 
     public function isRefused(): bool
     {
-        return $this->statusDescription == self::STATUS_REFUSED;
+        return isset(array_flip(self::STATUS_LIST_REFUSED)[$this->statusDescription]);
     }
 
     public function isInTransit(): bool
